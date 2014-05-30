@@ -54,14 +54,5 @@ DARROW          =>
 %%
 {DARROW}		{ return (DARROW); }
 [\n\t\b\f ] {}
-
-
- /*
-  *  String constants (C syntax)
-  *  Escape sequence \c is accepted for all characters c. Except for 
-  *  \n \t \b \f, the result is c.
-  *
-  */
-
-
+\0          { return (0); }
 %%

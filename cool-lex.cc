@@ -452,8 +452,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	(yy_c_buf_p) = yy_cp;
 
 /* %% [4.0] data tables for the DFA and the user's section 1 definitions go here */
-#define YY_NUM_RULES 3
-#define YY_END_OF_BUFFER 4
+#define YY_NUM_RULES 4
+#define YY_END_OF_BUFFER 5
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -461,9 +461,9 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[9] =
+static yyconst flex_int16_t yy_accept[10] =
     {   0,
-        0,    0,    4,    3,    2,    3,    1,    0
+        0,    0,    5,    4,    2,    4,    3,    1,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -498,31 +498,31 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int32_t yy_meta[5] =
+static yyconst flex_int32_t yy_meta[6] =
     {   0,
-        1,    1,    1,    2
+        1,    1,    1,    2,    1
     } ;
 
-static yyconst flex_int16_t yy_base[10] =
+static yyconst flex_int16_t yy_base[11] =
     {   0,
-        0,    0,    6,    7,    7,    0,    7,    7,    3
+        0,    0,    7,    8,    8,    0,    8,    8,    8,    4
     } ;
 
-static yyconst flex_int16_t yy_def[10] =
+static yyconst flex_int16_t yy_def[11] =
     {   0,
-        8,    1,    8,    8,    8,    9,    8,    0,    8
+        9,    1,    9,    9,    9,   10,    9,    9,    0,    9
     } ;
 
-static yyconst flex_int16_t yy_nxt[12] =
+static yyconst flex_int16_t yy_nxt[14] =
     {   0,
-        4,    5,    6,    4,    7,    8,    3,    8,    8,    8,
-        8
+        4,    5,    6,    4,    7,    8,    9,    3,    9,    9,
+        9,    9,    9
     } ;
 
-static yyconst flex_int16_t yy_chk[12] =
+static yyconst flex_int16_t yy_chk[14] =
     {   0,
-        1,    1,    1,    1,    9,    3,    8,    8,    8,    8,
-        8
+        1,    1,    1,    1,    1,   10,    3,    9,    9,    9,
+        9,    9,    9
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -531,9 +531,9 @@ static char *yy_last_accepting_cpos;
 extern int yy_flex_debug;
 int yy_flex_debug = 1;
 
-static yyconst flex_int16_t yy_rule_linenum[3] =
+static yyconst flex_int16_t yy_rule_linenum[4] =
     {   0,
-       55,   56
+       55,   56,   57
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -904,13 +904,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 9 )
+				if ( yy_current_state >= 10 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 7 );
+		while ( yy_base[yy_current_state] != 8 );
 
 yy_find_action:
 /* %% [10.0] code to find the action number goes here */
@@ -933,13 +933,13 @@ do_action:	/* This label is used only to access EOF actions. */
 			{
 			if ( yy_act == 0 )
 				fprintf( stderr, "--scanner backing up\n" );
-			else if ( yy_act < 3 )
+			else if ( yy_act < 4 )
 				fprintf( stderr, "--accepting rule at line %ld (\"%s\")\n",
 				         (long)yy_rule_linenum[yy_act], yytext );
-			else if ( yy_act == 3 )
+			else if ( yy_act == 4 )
 				fprintf( stderr, "--accepting default rule (\"%s\")\n",
 				         yytext );
-			else if ( yy_act == 4 )
+			else if ( yy_act == 5 )
 				fprintf( stderr, "--(end of buffer or a NUL)\n" );
 			else
 				fprintf( stderr, "--EOF (start condition %d)\n", YY_START );
@@ -966,18 +966,17 @@ YY_RULE_SETUP
 #line 56 "cool.flex"
 {}
 	YY_BREAK
-/*
-  *  String constants (C syntax)
-  *  Escape sequence \c is accepted for all characters c. Except for 
-  *  \n \t \b \f, the result is c.
-  *
-  */
 case 3:
 YY_RULE_SETUP
-#line 67 "cool.flex"
+#line 57 "cool.flex"
+{ return (0); }
+	YY_BREAK
+case 4:
+YY_RULE_SETUP
+#line 58 "cool.flex"
 ECHO;
 	YY_BREAK
-#line 981 "cool-lex.cc"
+#line 980 "cool-lex.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1281,7 +1280,7 @@ static int yy_get_next_buffer (void)
 	for ( yy_cp = (yytext_ptr) + YY_MORE_ADJ; yy_cp < (yy_c_buf_p); ++yy_cp )
 		{
 /* %% [16.0] code to find the next state goes here */
-		register YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
+		register YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 5);
 		if ( yy_accept[yy_current_state] )
 			{
 			(yy_last_accepting_state) = yy_current_state;
@@ -1290,7 +1289,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 9 )
+			if ( yy_current_state >= 10 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1314,7 +1313,7 @@ static int yy_get_next_buffer (void)
     /* %% [17.0] code to find the next state, and perhaps do backing up, goes here */
 	register char *yy_cp = (yy_c_buf_p);
 
-	register YY_CHAR yy_c = 1;
+	register YY_CHAR yy_c = 5;
 	if ( yy_accept[yy_current_state] )
 		{
 		(yy_last_accepting_state) = yy_current_state;
@@ -1323,11 +1322,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 9 )
+		if ( yy_current_state >= 10 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 8);
+	yy_is_jam = (yy_current_state == 9);
 
 	return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2112,7 +2111,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 67 "cool.flex"
+#line 58 "cool.flex"
 
 
 
