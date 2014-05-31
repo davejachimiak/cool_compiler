@@ -45,7 +45,7 @@ extern YYSTYPE cool_yylval;
 
 %}
 
-STR_CONST \".*\"
+STR_CONST \"([^(\\\n)]*(\\\n)*)*\"
 INT_CONST [0-9]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
 OBJECTID [0-9a-zA-Z_]+
