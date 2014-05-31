@@ -47,14 +47,19 @@ extern YYSTYPE cool_yylval;
 
 DARROW =>
 INT_CONST [0-9]+
-IDENTIFIERS [0-9a-zA-Z_]+
+OBJECTID [0-9a-zA-Z_]+
+TYPEID [A-Z]+[0-9a-zA-Z_]+
 
 %%
 {INT_CONST} { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
 }
-{IDENTIFIERS} {
+{TYPEID} {
+  cool_yylval.symbol = idtable.add_string (yytext);
+  return (TYPEID);
+}
+{OBJECTID} {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (OBJECTID);
 }
