@@ -49,16 +49,20 @@ extern YYSTYPE cool_yylval;
  * Define names for regular expressions here.
  */
 
-DARROW          =>
+DARROW =>
+INT_CONST [0-9]+
+IDENTIFIERS [0-9a-zA-Z_]+
 
 %%
-[0123456789]+ { 
+{INT_CONST} { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
 }
-
-
-{DARROW}		{ return (DARROW); }
-[\n\t\b\f ] {}
-\0          { return (0); }
+{IDENTIFIERS} {
+  cool_yylval.symbol = idtable.add_string (yytext);
+  return (OBJECTID);
+}
+{DARROW} { return (DARROW); }
+[\t\b\f ] {}
+[\n] { curr_lineno++; }
 %%
