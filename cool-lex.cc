@@ -544,7 +544,7 @@ int yy_flex_debug = 1;
 
 static yyconst flex_int16_t yy_rule_linenum[8] =
     {   0,
-       55,   76,   80,   84,   88,   89,   90
+       56,   76,   80,   84,   88,   89,   90
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -568,6 +568,7 @@ char *yytext;
 #include <cool-parse.h>
 #include <stringtab.h>
 #include <utilities.h>
+#include <algorithm>
 
 /* The compiler assumes these identifiers. */
 #define yylval cool_yylval
@@ -600,7 +601,7 @@ extern YYSTYPE cool_yylval;
  *  Add Your own definitions here
  */
 
-#line 604 "cool-lex.cc"
+#line 605 "cool-lex.cc"
 
 #define INITIAL 0
 
@@ -847,9 +848,9 @@ YY_DECL
 	register int yy_act;
     
 /* %% [7.0] user's declarations go here */
-#line 54 "cool.flex"
+#line 55 "cool.flex"
 
-#line 853 "cool-lex.cc"
+#line 854 "cool-lex.cc"
 
 	if ( !(yy_init) )
 		{
@@ -966,24 +967,23 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 55 "cool.flex"
+#line 56 "cool.flex"
 {
   /* convert yytext, which is of type *char, to string to manipulate it more easily */
-  std::string raw_string = yytext;
+  std::string str = yytext;
 
   /* erase quotes captured from regexp */
-  raw_string.erase(0, 1);
-  raw_string.erase(raw_string.size() - 1);
+  str.erase(0, 1);
+  str.erase(str.size() - 1);
 
   /* remove escape character from string */
-  std::string complete_string;
-  for(size_t i = 0; i < raw_string.size(); ++i)
-    if(raw_string[i] != '\\') complete_string += raw_string[i];
+  char remove_me = '\\';
+  str.erase (std::remove(str.begin(), str.end(), remove_me), str.end());
 
   /* convert string back to *char */
-  char * strang = new char[complete_string.size() + 1];
-  std::copy(complete_string.begin(), complete_string.end(), strang);
-  strang[complete_string.size()] = '\0';
+  char * strang = new char[str.size() + 1];
+  std::copy(str.begin(), str.end(), strang);
+  strang[str.size()] = '\0';
 
   cool_yylval.symbol = stringtable.add_string (strang);
   return (STR_CONST);
