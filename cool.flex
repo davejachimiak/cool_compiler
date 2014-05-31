@@ -52,6 +52,12 @@ extern YYSTYPE cool_yylval;
 DARROW          =>
 
 %%
+[0123456789]+ { 
+  cool_yylval.symbol = inttable.add_string (yytext);
+  return (INT_CONST);
+}
+
+
 {DARROW}		{ return (DARROW); }
 [\n\t\b\f ] {}
 \0          { return (0); }
