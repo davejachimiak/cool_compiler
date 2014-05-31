@@ -53,18 +53,22 @@ DARROW =>
 
 %%
 {STR_CONST} {
-  /* convert yytext, which is of type *char, to string to do manipulate it more easily */
-  std::string str = yytext;
+  /* convert yytext, which is of type *char, to string to manipulate it more easily */
+  std::string raw_string = yytext;
 
   /* erase quotes captured from regexp */
-  str.erase(0, 1);
-  str.erase(str.size() - 1);
+  raw_string.erase(0, 1);
+  raw_string.erase(raw_string.size() - 1);
 
+  /* remove escape character from string */
+  std::string complete_string;
+  for(size_t i = 0; i < raw_string.size(); ++i)
+    if(raw_string[i] != '\\') complete_string += raw_string[i];
 
   /* convert string back to *char */
-  char * strang = new char[str.size() + 1];
-  std::copy(str.begin(), str.end(), strang);
-  strang[str.size()] = '\0';
+  char * strang = new char[complete_string.size() + 1];
+  std::copy(complete_string.begin(), complete_string.end(), strang);
+  strang[complete_string.size()] = '\0';
 
   cool_yylval.symbol = stringtable.add_string (strang);
   return (STR_CONST);
