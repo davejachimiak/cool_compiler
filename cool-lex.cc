@@ -463,7 +463,7 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[14] =
     {   0,
-        0,    0,    7,    6,    4,    5,    1,    6,    2,    1,
+        0,    0,    7,    6,    5,    4,    1,    6,    2,    1,
         2,    3,    0
     } ;
 
@@ -980,15 +980,15 @@ YY_RULE_SETUP
 { return (DARROW); }
 	YY_BREAK
 case 4:
+/* rule 4 can match eol */
 YY_RULE_SETUP
 #line 66 "cool.flex"
-{}
+{ curr_lineno++; }
 	YY_BREAK
 case 5:
-/* rule 5 can match eol */
 YY_RULE_SETUP
 #line 67 "cool.flex"
-{ curr_lineno++; }
+{}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP

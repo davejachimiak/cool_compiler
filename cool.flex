@@ -63,6 +63,6 @@ IDENTIFIERS [0-9a-zA-Z_]+
   return (OBJECTID);
 }
 {DARROW} { return (DARROW); }
-[\t\b\f ] {}
 [\n] { curr_lineno++; }
+[\t\b\f ] {}
 %%
