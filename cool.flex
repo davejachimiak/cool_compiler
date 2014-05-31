@@ -45,12 +45,25 @@ extern YYSTYPE cool_yylval;
 
 %}
 
-DARROW =>
+STR_CONST \".*\"
 INT_CONST [0-9]+
-OBJECTID [0-9a-zA-Z_]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
+OBJECTID [0-9a-zA-Z_]+
+DARROW =>
 
 %%
+{STR_CONST} {
+  std::string str = yytext;
+  str.erase(0, 1);
+  str.erase(str.size() - 1);
+  char * strang = new char[str.size() + 1];
+  std::copy(str.begin(), str.end(), strang);
+  strang[str.size()] = '\0';
+
+  cool_yylval.symbol = stringtable.add_string (strang);
+  delete[] strang;
+  return (STR_CONST);
+}
 {INT_CONST} { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
