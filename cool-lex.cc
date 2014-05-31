@@ -544,7 +544,7 @@ int yy_flex_debug = 1;
 
 static yyconst flex_int16_t yy_rule_linenum[8] =
     {   0,
-       55,   67,   71,   75,   79,   80,   81
+       55,   68,   72,   76,   80,   81,   82
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -971,6 +971,7 @@ YY_RULE_SETUP
   std::string str = yytext;
   str.erase(0, 1);
   str.erase(str.size() - 1);
+
   char * strang = new char[str.size() + 1];
   std::copy(str.begin(), str.end(), strang);
   strang[str.size()] = '\0';
@@ -982,7 +983,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 67 "cool.flex"
+#line 68 "cool.flex"
 { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
@@ -990,7 +991,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 71 "cool.flex"
+#line 72 "cool.flex"
 {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (TYPEID);
@@ -998,7 +999,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 75 "cool.flex"
+#line 76 "cool.flex"
 {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (OBJECTID);
@@ -1006,26 +1007,26 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 79 "cool.flex"
+#line 80 "cool.flex"
 { return (DARROW); }
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 80 "cool.flex"
+#line 81 "cool.flex"
 { curr_lineno++; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 81 "cool.flex"
+#line 82 "cool.flex"
 {}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 82 "cool.flex"
+#line 83 "cool.flex"
 ECHO;
 	YY_BREAK
-#line 1029 "cool-lex.cc"
+#line 1030 "cool-lex.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2160,7 +2161,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 82 "cool.flex"
+#line 83 "cool.flex"
 
 
 

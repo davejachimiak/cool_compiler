@@ -56,6 +56,7 @@ DARROW =>
   std::string str = yytext;
   str.erase(0, 1);
   str.erase(str.size() - 1);
+
   char * strang = new char[str.size() + 1];
   std::copy(str.begin(), str.end(), strang);
   strang[str.size()] = '\0';
