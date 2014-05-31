@@ -62,8 +62,8 @@ DARROW =>
   str.erase(str.size() - 1);
 
   /* remove escape character from string */
-  char remove_me = '\\';
-  str.erase (std::remove(str.begin(), str.end(), remove_me), str.end());
+  char escape = '\\';
+  str.erase (std::remove(str.begin(), str.end(), escape), str.end());
 
   /* convert string back to *char */
   char * strang = new char[str.size() + 1];
@@ -85,7 +85,7 @@ DARROW =>
   cool_yylval.symbol = idtable.add_string (yytext);
   return (OBJECTID);
 }
-{DARROW} { return (DARROW); }
-\n { curr_lineno++; }
-[\t\b\f ] {}
+{DARROW} return (DARROW);
+\n curr_lineno++;
+[\t\b\f ]
 %%

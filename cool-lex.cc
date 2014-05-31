@@ -977,8 +977,8 @@ YY_RULE_SETUP
   str.erase(str.size() - 1);
 
   /* remove escape character from string */
-  char remove_me = '\\';
-  str.erase (std::remove(str.begin(), str.end(), remove_me), str.end());
+  char escape = '\\';
+  str.erase (std::remove(str.begin(), str.end(), escape), str.end());
 
   /* convert string back to *char */
   char * strang = new char[str.size() + 1];
@@ -1016,18 +1016,18 @@ YY_RULE_SETUP
 case 5:
 YY_RULE_SETUP
 #line 88 "cool.flex"
-{ return (DARROW); }
+return (DARROW);
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
 #line 89 "cool.flex"
-{ curr_lineno++; }
+curr_lineno++;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 90 "cool.flex"
-{}
+
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
