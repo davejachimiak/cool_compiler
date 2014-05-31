@@ -536,7 +536,7 @@ int yy_flex_debug = 1;
 
 static yyconst flex_int16_t yy_rule_linenum[6] =
     {   0,
-       57,   61,   65,   66,   67
+       53,   57,   61,   62,   63
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -592,10 +592,7 @@ extern YYSTYPE cool_yylval;
  *  Add Your own definitions here
  */
 
-/*
- * Define names for regular expressions here.
- */
-#line 599 "cool-lex.cc"
+#line 596 "cool-lex.cc"
 
 #define INITIAL 0
 
@@ -842,9 +839,9 @@ YY_DECL
 	register int yy_act;
     
 /* %% [7.0] user's declarations go here */
-#line 56 "cool.flex"
+#line 52 "cool.flex"
 
-#line 848 "cool-lex.cc"
+#line 845 "cool-lex.cc"
 
 	if ( !(yy_init) )
 		{
@@ -960,7 +957,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 57 "cool.flex"
+#line 53 "cool.flex"
 { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
@@ -968,7 +965,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 61 "cool.flex"
+#line 57 "cool.flex"
 {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (OBJECTID);
@@ -976,26 +973,26 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 65 "cool.flex"
+#line 61 "cool.flex"
 { return (DARROW); }
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 66 "cool.flex"
+#line 62 "cool.flex"
 { curr_lineno++; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 67 "cool.flex"
+#line 63 "cool.flex"
 {}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 68 "cool.flex"
+#line 64 "cool.flex"
 ECHO;
 	YY_BREAK
-#line 999 "cool-lex.cc"
+#line 996 "cool-lex.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2130,7 +2127,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 68 "cool.flex"
+#line 64 "cool.flex"
 
 
 

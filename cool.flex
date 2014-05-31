@@ -45,10 +45,6 @@ extern YYSTYPE cool_yylval;
 
 %}
 
-/*
- * Define names for regular expressions here.
- */
-
 DARROW =>
 INT_CONST [0-9]+
 IDENTIFIERS [0-9a-zA-Z_]+
@@ -63,6 +59,6 @@ IDENTIFIERS [0-9a-zA-Z_]+
   return (OBJECTID);
 }
 {DARROW} { return (DARROW); }
-[\n] { curr_lineno++; }
+\n { curr_lineno++; }
 [\t\b\f ] {}
 %%
