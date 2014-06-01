@@ -543,7 +543,7 @@ int yy_flex_debug = 1;
 
 static yyconst flex_int16_t yy_rule_linenum[8] =
     {   0,
-       56,   76,   80,   84,   88,   89,   90
+       99,  119,  123,  127,  131,  132,  133
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -596,11 +596,54 @@ extern int verbose_flag;
 
 extern YYSTYPE cool_yylval;
 
-/*
- *  Add Your own definitions here
- */
+/* STR_CONST helpers */
 
-#line 604 "cool-lex.cc"
+bool char_is_not_last (int i)
+{ return (i != (yyleng -1)); }
+
+bool is_escape (char raw_char)
+{ return (raw_char == '\\'); }
+
+char convert_char (int i)
+{
+  char cur_char = yytext[i];
+
+  if (is_escape(cur_char))
+  {
+    char next_char = yytext[i+1];
+
+    switch(next_char)
+    {
+    case '\\' :
+      return ('\\');
+      break;
+    case '\"' :
+      return ('\"');
+      break;
+    case '\n' :
+      return ('\0');
+      break;
+    case 'n' :
+      return ('\n');
+      break;
+    case 't' :
+      return ('\t');
+      break;
+    case 'b' :
+      return ('\b');
+      break;
+    case 'f' :
+      return ('\f');
+      break;
+    }
+  }
+  else
+    return (cur_char);
+}
+
+bool prev_char_is_not_escape (int i)
+{ return (!is_escape(yytext[i - 1])); }
+#line 647 "cool-lex.cc"
 
 #define INITIAL 0
 
@@ -847,9 +890,9 @@ YY_DECL
 	register int yy_act;
     
 /* %% [7.0] user's declarations go here */
-#line 55 "cool.flex"
+#line 98 "cool.flex"
 
-#line 853 "cool-lex.cc"
+#line 896 "cool-lex.cc"
 
 	if ( !(yy_init) )
 		{
@@ -966,31 +1009,31 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 56 "cool.flex"
+#line 99 "cool.flex"
 {
-  /* convert yytext, which is of type *char, to string to manipulate it more easily */
-  std::string str = yytext;
+  char string_for_table[] = "";
 
-  /* erase quotes captured from regexp */
-  str.erase(0, 1);
-  str.erase(str.size() - 1);
+  for (int i=1; i < yyleng; i++)
+  {
+    bool char_is_allowed =
+      char_is_not_last(i) &&
+      prev_char_is_not_escape(i);
+    
+    if (char_is_allowed)
+    {
+      int cur_string_len = strlen(string_for_table);
+      string_for_table[cur_string_len] = convert_char(i);
+      string_for_table[cur_string_len+1] = '\0';
+    }
+  }
 
-  /* remove escape character from string */
-  char escape = '\\';
-  str.erase (std::remove(str.begin(), str.end(), escape), str.end());
-
-  /* convert string back to *char */
-  char * strang = new char[str.size() + 1];
-  std::copy(str.begin(), str.end(), strang);
-  strang[str.size()] = '\0';
-
-  cool_yylval.symbol = stringtable.add_string (strang);
+  cool_yylval.symbol = stringtable.add_string(string_for_table);
   return (STR_CONST);
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 76 "cool.flex"
+#line 119 "cool.flex"
 { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
@@ -998,7 +1041,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 80 "cool.flex"
+#line 123 "cool.flex"
 {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (TYPEID);
@@ -1006,7 +1049,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 84 "cool.flex"
+#line 127 "cool.flex"
 {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (OBJECTID);
@@ -1014,26 +1057,26 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 88 "cool.flex"
+#line 131 "cool.flex"
 return (DARROW);
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 89 "cool.flex"
+#line 132 "cool.flex"
 curr_lineno++;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 90 "cool.flex"
+#line 133 "cool.flex"
 
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 91 "cool.flex"
+#line 134 "cool.flex"
 ECHO;
 	YY_BREAK
-#line 1037 "cool-lex.cc"
+#line 1080 "cool-lex.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2168,7 +2211,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 91 "cool.flex"
+#line 134 "cool.flex"
 
 
 

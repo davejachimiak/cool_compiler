@@ -40,10 +40,53 @@ extern int verbose_flag;
 
 extern YYSTYPE cool_yylval;
 
-/*
- *  Add Your own definitions here
- */
+/* STR_CONST helpers */
 
+bool char_is_not_last (int i)
+{ return (i != (yyleng -1)); }
+
+bool is_escape (char raw_char)
+{ return (raw_char == '\\'); }
+
+char convert_char (int i)
+{
+  char cur_char = yytext[i];
+
+  if (is_escape(cur_char))
+  {
+    char next_char = yytext[i+1];
+
+    switch(next_char)
+    {
+    case '\\' :
+      return ('\\');
+      break;
+    case '\"' :
+      return ('\"');
+      break;
+    case '\n' :
+      return ('\0');
+      break;
+    case 'n' :
+      return ('\n');
+      break;
+    case 't' :
+      return ('\t');
+      break;
+    case 'b' :
+      return ('\b');
+      break;
+    case 'f' :
+      return ('\f');
+      break;
+    }
+  }
+  else
+    return (cur_char);
+}
+
+bool prev_char_is_not_escape (int i)
+{ return (!is_escape(yytext[i - 1])); }
 %}
 
 STR_CONST \"([^\n]*(\\\n)*)*\"
@@ -54,23 +97,23 @@ DARROW =>
 
 %%
 {STR_CONST} {
-  /* convert yytext, which is of type *char, to string to manipulate it more easily */
-  std::string str = yytext;
+  char string_for_table[] = "";
 
-  /* erase quotes captured from regexp */
-  str.erase(0, 1);
-  str.erase(str.size() - 1);
+  for (int i=1; i < yyleng; i++)
+  {
+    bool char_is_allowed =
+      char_is_not_last(i) &&
+      prev_char_is_not_escape(i);
+    
+    if (char_is_allowed)
+    {
+      int cur_string_len = strlen(string_for_table);
+      string_for_table[cur_string_len] = convert_char(i);
+      string_for_table[cur_string_len+1] = '\0';
+    }
+  }
 
-  /* remove escape character from string */
-  char escape = '\\';
-  str.erase (std::remove(str.begin(), str.end(), escape), str.end());
-
-  /* convert string back to *char */
-  char * strang = new char[str.size() + 1];
-  std::copy(str.begin(), str.end(), strang);
-  strang[str.size()] = '\0';
-
-  cool_yylval.symbol = stringtable.add_string (strang);
+  cool_yylval.symbol = stringtable.add_string(string_for_table);
   return (STR_CONST);
 }
 {INT_CONST} { 
