@@ -89,7 +89,8 @@ bool prev_char_is_not_escape (int i)
 { return (!is_escape(yytext[i - 1])); }
 %}
 
-STR_CONST \"([^\n]*(\\\n)*)*\"
+BAD_STRING \"[^\"]*[\n\0]
+STR_CONST \"(([^\n]|\\\")*(\\\n)*)*\"
 INT_CONST [0-9]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
 OBJECTID [0-9a-zA-Z_]+
