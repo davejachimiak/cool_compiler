@@ -135,4 +135,5 @@ DARROW =>
 {DARROW} return (DARROW);
 \n curr_lineno++;
 [\t\b\f ]
+. return (ERROR);
 %%

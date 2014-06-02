@@ -452,8 +452,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	(yy_c_buf_p) = yy_cp;
 
 /* %% [4.0] data tables for the DFA and the user's section 1 definitions go here */
-#define YY_NUM_RULES 10
-#define YY_END_OF_BUFFER 11
+#define YY_NUM_RULES 11
+#define YY_END_OF_BUFFER 12
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -463,7 +463,7 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[29] =
     {   0,
-        0,    0,   11,   10,    9,    8,   10,   10,    4,   10,
+        0,    0,   12,   10,    9,    8,   10,   10,    4,   10,
         6,    6,    0,    1,    3,    0,    2,    4,    6,    7,
         5,    5,    1,    3,    2,    0,    0,    0
     } ;
@@ -552,9 +552,9 @@ static char *yy_last_accepting_cpos;
 extern int yy_flex_debug;
 int yy_flex_debug = 1;
 
-static yyconst flex_int16_t yy_rule_linenum[10] =
+static yyconst flex_int16_t yy_rule_linenum[11] =
     {   0,
-      101,  102,  103,  123,  127,  131,  135,  136,  137
+      101,  102,  103,  123,  127,  131,  135,  136,  137,  138
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -995,13 +995,13 @@ do_action:	/* This label is used only to access EOF actions. */
 			{
 			if ( yy_act == 0 )
 				fprintf( stderr, "--scanner backing up\n" );
-			else if ( yy_act < 10 )
+			else if ( yy_act < 11 )
 				fprintf( stderr, "--accepting rule at line %ld (\"%s\")\n",
 				         (long)yy_rule_linenum[yy_act], yytext );
-			else if ( yy_act == 10 )
+			else if ( yy_act == 11 )
 				fprintf( stderr, "--accepting default rule (\"%s\")\n",
 				         yytext );
-			else if ( yy_act == 11 )
+			else if ( yy_act == 12 )
 				fprintf( stderr, "--(end of buffer or a NUL)\n" );
 			else
 				fprintf( stderr, "--EOF (start condition %d)\n", YY_START );
@@ -1096,9 +1096,14 @@ YY_RULE_SETUP
 case 10:
 YY_RULE_SETUP
 #line 138 "cool.flex"
+return (ERROR);
+	YY_BREAK
+case 11:
+YY_RULE_SETUP
+#line 139 "cool.flex"
 ECHO;
 	YY_BREAK
-#line 1102 "cool-lex.cc"
+#line 1107 "cool-lex.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2233,7 +2238,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 138 "cool.flex"
+#line 139 "cool.flex"
 
 
 
