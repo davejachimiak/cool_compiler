@@ -90,6 +90,7 @@ bool prev_char_is_not_escape (int i)
 %}
 
 BAD_STRING \"[^\"\n\0]*[\n\0]
+COMMENT --[^\n\0]*
 STR_CONST \"([^\"\n\0]|\\\"|\\\n)*\"
 INT_CONST [0-9]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
@@ -98,6 +99,7 @@ DARROW =>
 
 %%
 {BAD_STRING} return (ERROR);
+{COMMENT}
 {STR_CONST} {
   char string_for_table[] = "";
 
