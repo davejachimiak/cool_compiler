@@ -101,15 +101,15 @@ DARROW =>
 
   for (int i=1; i < yyleng; i++)
   {
-    bool char_is_allowed =
-      char_is_not_last(i) &&
-      prev_char_is_not_escape(i);
-    
-    if (char_is_allowed)
+    if (char_is_not_last(i))
     {
       int cur_string_len = strlen(string_for_table);
       string_for_table[cur_string_len] = convert_char(i);
       string_for_table[cur_string_len+1] = '\0';
+
+      /* skip next character if current is escape*/
+      if (yytext[i] == '\\')
+        i++;
     }
   }
 
