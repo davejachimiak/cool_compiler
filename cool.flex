@@ -1,3 +1,5 @@
+%Start COMMENT
+
 /*
  *  The scanner definition for COOL.
  */
@@ -87,10 +89,13 @@ char convert_char (int i)
 
 bool prev_char_is_not_escape (int i)
 { return (!is_escape(yytext[i - 1])); }
+
 %}
 
 BAD_STRING \"[^\"\n\0]*[\n\0]
-COMMENT --[^\n\0]*
+LINE_COMMENT --[^\n\0]*
+OPEN_COMMENT \(\*
+CLOSE_COMMENT \*\)
 STR_CONST \"([^\"\n\0]|\\\"|\\\n)*\"
 INT_CONST [0-9]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
@@ -98,9 +103,12 @@ OBJECTID [0-9a-zA-Z_]+
 DARROW =>
 
 %%
-{BAD_STRING} return (ERROR);
-{COMMENT}
-{STR_CONST} {
+<INITIAL>{OPEN_COMMENT} BEGIN(COMMENT);
+<INITIAL>{BAD_STRING} return (ERROR);
+<INITIAL>{LINE_COMMENT}
+<COMMENT>[^\*\(]*
+<COMMENT>\*\) BEGIN(INITIAL);
+<INITIAL>{STR_CONST} {
   char string_for_table[] = "";
 
   for (int i=1; i < yyleng; i++)
@@ -120,20 +128,20 @@ DARROW =>
   cool_yylval.symbol = stringtable.add_string(string_for_table);
   return (STR_CONST);
 }
-{INT_CONST} { 
+<INITIAL>{INT_CONST} { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
 }
-{TYPEID} {
+<INITIAL>{TYPEID} {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (TYPEID);
 }
-{OBJECTID} {
+<INITIAL>{OBJECTID} {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (OBJECTID);
 }
-{DARROW} return (DARROW);
-\n curr_lineno++;
-[\t\b\f ]
-. return (ERROR);
+<INITIAL>{DARROW} return (DARROW);
+<INITIAL>\n curr_lineno++;
+<INITIAL>[\t\b\f ]
+<INITIAL>. return (ERROR);
 %%
