@@ -67,6 +67,7 @@ char convert_char (int i)
       return ('\"');
       break;
     case '\n' :
+      curr_lineno++;
       return ('\0');
       break;
     case 'n' :
@@ -107,7 +108,8 @@ DARROW =>
 <INITIAL>{BAD_STRING} return (ERROR);
 <INITIAL>{LINE_COMMENT}
 <COMMENT>[^\*\(]*
-<COMMENT>\*\) BEGIN(INITIAL);
+<COMMENT>\n curr_lineno++;
+<COMMENT>{CLOSE_COMMENT} BEGIN(INITIAL);
 <INITIAL>{STR_CONST} {
   char string_for_table[] = "";
 
@@ -143,5 +145,6 @@ DARROW =>
 <INITIAL>{DARROW} return (DARROW);
 <INITIAL>\n curr_lineno++;
 <INITIAL>[\t\b\f ]
+<INITIAL>\n curr_lineno++;
 <INITIAL>. return (ERROR);
 %%
