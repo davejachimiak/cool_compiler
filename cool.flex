@@ -138,8 +138,16 @@ DARROW =>
     }
   }
 
-  cool_yylval.symbol = stringtable.add_string(string_for_table);
-  return (STR_CONST);
+  if (strlen(string_for_table) <= 1024)
+  {
+    cool_yylval.symbol = stringtable.add_string(string_for_table);
+    return (STR_CONST);
+  }
+  else
+  {
+    cool_yylval.error_msg = "String constant too long";
+    return (ERROR);
+  }
 }
 <INITIAL>{INT_CONST} { 
   cool_yylval.symbol = inttable.add_string (yytext);

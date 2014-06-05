@@ -569,8 +569,8 @@ int yy_flex_debug = 1;
 
 static yyconst flex_int16_t yy_rule_linenum[17] =
     {   0,
-      107,  111,  112,  113,  121,  122,  123,  124,  144,  148,
-      152,  156,  157,  158,  159,  160
+      107,  111,  112,  113,  121,  122,  123,  124,  152,  156,
+      160,  164,  165,  166,  167,  168
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -1109,13 +1109,21 @@ YY_RULE_SETUP
     }
   }
 
-  cool_yylval.symbol = stringtable.add_string(string_for_table);
-  return (STR_CONST);
+  if (strlen(string_for_table) <= 1024)
+  {
+    cool_yylval.symbol = stringtable.add_string(string_for_table);
+    return (STR_CONST);
+  }
+  else
+  {
+    cool_yylval.error_msg = "String constant too long";
+    return (ERROR);
+  }
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 144 "cool.flex"
+#line 152 "cool.flex"
 { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
@@ -1123,7 +1131,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 148 "cool.flex"
+#line 156 "cool.flex"
 {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (TYPEID);
@@ -1131,7 +1139,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 152 "cool.flex"
+#line 160 "cool.flex"
 {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (OBJECTID);
@@ -1139,29 +1147,29 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 156 "cool.flex"
+#line 164 "cool.flex"
 return (DARROW);
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 157 "cool.flex"
+#line 165 "cool.flex"
 curr_lineno++;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 158 "cool.flex"
+#line 166 "cool.flex"
 
 	YY_BREAK
 case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
-#line 159 "cool.flex"
+#line 167 "cool.flex"
 curr_lineno++;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 160 "cool.flex"
+#line 168 "cool.flex"
 {
   cool_yylval.error_msg = yytext;
   return (ERROR);
@@ -1169,10 +1177,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 164 "cool.flex"
+#line 172 "cool.flex"
 ECHO;
 	YY_BREAK
-#line 1176 "cool-lex.cc"
+#line 1184 "cool-lex.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2307,7 +2315,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 164 "cool.flex"
+#line 172 "cool.flex"
 
 
 
