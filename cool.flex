@@ -120,6 +120,7 @@ DARROW =>
   return (ERROR);
 }
 <COMMENT><<EOF>> {
+  cool_yylval.error_msg = "EOF in comment";
   BEGIN(INITIAL);
   return(ERROR);
 }
