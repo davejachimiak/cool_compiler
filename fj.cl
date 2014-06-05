@@ -9,6 +9,7 @@ house"
 "cool \"\"\\\house"
 "cool \f\" poop"
 
-(* hi *)
+(* *)
 
 "awesome \bbackspace"
+(* wut
