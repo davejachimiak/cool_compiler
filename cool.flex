@@ -93,7 +93,7 @@ bool prev_char_is_not_escape (int i)
 
 %}
 
-BAD_STRING \"[^\"\n\0]*[\n\0]
+STRING_REACHED_EOL \"[^\"\n\0]*[\n\0]
 LINE_COMMENT --[^\n\0]*
 OPEN_COMMENT \(\*
 CLOSE_COMMENT \*\)
@@ -104,9 +104,16 @@ OBJECTID [0-9a-zA-Z_]+
 DARROW =>
 
 %%
-<INITIAL>{BAD_STRING} return (ERROR);
+<INITIAL>{STRING_REACHED_EOL} {
+  cool_yylval.error_msg = "Unterminated string constant";
+  return (ERROR);
+}
 <INITIAL>{LINE_COMMENT}
 <INITIAL>{OPEN_COMMENT} BEGIN(COMMENT);
+<INITIAL>{CLOSE_COMMENT} {
+  cool_yylval.error_msg = "Unmatched *)";
+  return (ERROR);
+}
 <COMMENT><<EOF>> {
   BEGIN(INITIAL);
   return(ERROR);
@@ -150,5 +157,8 @@ DARROW =>
 <INITIAL>\n curr_lineno++;
 <INITIAL>[\t\b\f ]
 <INITIAL>\n curr_lineno++;
-<INITIAL>. return (ERROR);
+<INITIAL>. {
+  cool_yylval.error_msg = yytext;
+  return (ERROR);
+}
 %%
