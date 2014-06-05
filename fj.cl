@@ -5,13 +5,15 @@ house"
 "cool \house"
 "cool \n house"
 -- "asshole"
-"shit"
+
+"sh"
 
 
 *)
-.
+nice.90
 
 "cool \"\"\\\house"
 "cool \f\" poop"
 
 "awesome \bbackspace"
+"

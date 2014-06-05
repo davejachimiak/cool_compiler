@@ -93,7 +93,8 @@ bool prev_char_is_not_escape (int i)
 
 %}
 
-STRING_REACHED_EOL \"[^\"\n\0]*[\n\0]
+STRING_REACHED_EOL \"[^\"\n\0]*\n
+STRING_HAS_NULL_CHAR \"[^\"\n\0]*\0+[^\"\n]*(\"(\\\n))
 LINE_COMMENT --[^\n\0]*
 OPEN_COMMENT \(\*
 CLOSE_COMMENT \*\)
@@ -106,6 +107,10 @@ DARROW =>
 %%
 <INITIAL>{STRING_REACHED_EOL} {
   cool_yylval.error_msg = "Unterminated string constant";
+  return (ERROR);
+}
+<INITIAL>{STRING_HAS_NULL_CHAR} {
+  cool_yylval.error_msg = "String contains null character";
   return (ERROR);
 }
 <INITIAL>{LINE_COMMENT}
