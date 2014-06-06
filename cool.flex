@@ -105,16 +105,31 @@ CLOSE_COMMENT \*\)
 
 CLASS (?i:class)
 INHERITS (?i:inherits)
+NEW (?i:new)
+
+ISVOID (?i:isvoid)
 
 IF (?i:if)
 ELSE (?i:else)
 FI (?i:fi)
 
+LOOP (?i:loop)
+POOL (?i:pool)
+
 LET (?i:let)
 IN (?i:in)
 
+THEN (?i:then)
+WHILE (?i:while)
+
 TRUE t(?i:rue)
 FALSE f(?i:alse)
+
+NOT (?i:not)
+
+CASE (?i:case)
+OF (?i:of)
+ESAC (?i:esac)
 
 INT_CONST [0-9]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
@@ -124,6 +139,9 @@ DARROW =>
 %%
 <INITIAL>{CLASS} return (CLASS);
 <INITIAL>{INHERITS} return (INHERITS);
+<INITIAL>{NEW} return (NEW);
+
+<INITIAL>{ISVOID} return (ISVOID);
 
 <INITIAL>{IF} return (IF);
 <INITIAL>{ELSE} return (ELSE);
@@ -131,6 +149,14 @@ DARROW =>
 
 <INITIAL>{LET} return (LET);
 <INITIAL>{IN} return (IN);
+
+<INITIAL>{LOOP} return (LOOP);
+<INITIAL>{POOL} return (POOL);
+
+<INITIAL>{THEN} return (THEN);
+<INITIAL>{WHILE} return (WHILE);
+
+<INITIAL>{NOT} return (NOT);
 
 <INITIAL>{TRUE} {
   yylval.boolean = 1;
@@ -140,6 +166,10 @@ DARROW =>
   yylval.boolean = 0;
   return (BOOL_CONST);
 }
+
+<INITIAL>{CASE} return (CASE);
+<INITIAL>{OF} return (OF);
+<INITIAL>{ESAC} return (ESAC);
 
 <INITIAL>{LINE_COMMENT} curr_lineno++;
 <INITIAL>{OPEN_COMMENT} BEGIN(COMMENT);
