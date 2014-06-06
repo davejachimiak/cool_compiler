@@ -133,6 +133,8 @@ ESAC (?i:esac)
 
 ASSIGN (<-)
 
+OPERATOR "-"|[+//*=<.~,;:\(\)@\{\}]
+
 INT_CONST [0-9]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
 OBJECTID [0-9a-zA-Z_]+
@@ -250,6 +252,7 @@ DARROW =>
 <INITIAL>{DARROW} return (DARROW);
 <INITIAL>[\t\b\f ]
 <INITIAL>\n curr_lineno++;
+<INITIAL>{OPERATOR} return (yytext[0]);
 <INITIAL>. {
   cool_yylval.error_msg = yytext;
   return (ERROR);
