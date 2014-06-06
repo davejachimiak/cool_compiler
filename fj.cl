@@ -1,3 +1,5 @@
+class Fart inherits Ass
+  let ass in asses
 ""
 "poopie\s"fart " fart" fart
 "cool \
@@ -14,4 +16,4 @@ house"
 
 "awesome \bbackspace"
 
-"s
+"s"

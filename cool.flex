@@ -102,12 +102,33 @@ EOL_IN_STRING [^\"(\\\n)]*[^\"\\]\n
 LINE_COMMENT --[^\n\0]*
 OPEN_COMMENT \(\*
 CLOSE_COMMENT \*\)
+
+CLASS (?i:class)
+INHERITS (?i:inherits)
+
+IF (?i:if)
+ELSE (?i:else)
+FI (?i:fi)
+
+LET (?i:let)
+IN (?i:in)
+
 INT_CONST [0-9]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
 OBJECTID [0-9a-zA-Z_]+
 DARROW =>
 
 %%
+<INITIAL>{CLASS} return (CLASS);
+<INITIAL>{INHERITS} return (INHERITS);
+
+<INITIAL>{IF} return (IF);
+<INITIAL>{ELSE} return (ELSE);
+<INITIAL>{FI} return (FI);
+
+<INITIAL>{LET} return (LET);
+<INITIAL>{IN} return (IN);
+
 <INITIAL>{LINE_COMMENT} curr_lineno++;
 <INITIAL>{OPEN_COMMENT} BEGIN(COMMENT);
 <INITIAL>{CLOSE_COMMENT} {
