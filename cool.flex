@@ -131,6 +131,8 @@ CASE (?i:case)
 OF (?i:of)
 ESAC (?i:esac)
 
+ASSIGN (<-)
+
 INT_CONST [0-9]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
 OBJECTID [0-9a-zA-Z_]+
@@ -170,6 +172,8 @@ DARROW =>
 <INITIAL>{CASE} return (CASE);
 <INITIAL>{OF} return (OF);
 <INITIAL>{ESAC} return (ESAC);
+
+<INITIAL>{ASSIGN} return (ASSIGN);
 
 <INITIAL>{LINE_COMMENT} curr_lineno++;
 <INITIAL>{OPEN_COMMENT} BEGIN(COMMENT);
