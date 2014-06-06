@@ -1,5 +1,9 @@
 class Fart inherits Ass
   let ass in asses
+
+True
+true
+falSE
 ""
 "poopie\s"fart " fart" fart
 "cool \

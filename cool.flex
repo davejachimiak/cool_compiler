@@ -113,6 +113,9 @@ FI (?i:fi)
 LET (?i:let)
 IN (?i:in)
 
+TRUE t(?i:rue)
+FALSE f(?i:alse)
+
 INT_CONST [0-9]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
 OBJECTID [0-9a-zA-Z_]+
@@ -128,6 +131,15 @@ DARROW =>
 
 <INITIAL>{LET} return (LET);
 <INITIAL>{IN} return (IN);
+
+<INITIAL>{TRUE} {
+  yylval.boolean = 1;
+  return (BOOL_CONST);
+}
+<INITIAL>{FALSE} {
+  yylval.boolean = 0;
+  return (BOOL_CONST);
+}
 
 <INITIAL>{LINE_COMMENT} curr_lineno++;
 <INITIAL>{OPEN_COMMENT} BEGIN(COMMENT);
