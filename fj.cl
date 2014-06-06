@@ -8,13 +8,10 @@ house"
 
 "sh"
 
-
-*)
-nice.90
-
+" wow
 "cool \"\"\\\house"
 "cool \f\" poop"
 
 "awesome \bbackspace"
-"
-(* sheeit
+
+"s

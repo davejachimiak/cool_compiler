@@ -1,4 +1,5 @@
 %Start COMMENT
+%Start STRING
 
 /*
  *  The scanner definition for COOL.
@@ -93,27 +94,21 @@ bool prev_char_is_not_escape (int i)
 
 %}
 
-STRING_REACHED_EOL \"[^\"\n\0]*\n
-STRING_HAS_NULL_CHAR \"[^\"\n\0]*\0+[^\"\n]*(\"(\\\n))
+STR_CONST ([^\"\n\0]|\\\"|\\\n)*\"
+OPEN_STRING \"
+NULL_CHAR_IN_STRING [^\"\n\0]\0[^\"(\\\n)](\"|\\\n)
+EOL_IN_STRING [^\"(\\\n)]*[^\"\\]\n
+
 LINE_COMMENT --[^\n\0]*
 OPEN_COMMENT \(\*
 CLOSE_COMMENT \*\)
-STR_CONST \"([^\"\n\0]|\\\"|\\\n)*\"
 INT_CONST [0-9]+
 TYPEID [A-Z]+[0-9a-zA-Z_]+
 OBJECTID [0-9a-zA-Z_]+
 DARROW =>
 
 %%
-<INITIAL>{STRING_REACHED_EOL} {
-  cool_yylval.error_msg = "Unterminated string constant";
-  return (ERROR);
-}
-<INITIAL>{STRING_HAS_NULL_CHAR} {
-  cool_yylval.error_msg = "String contains null character";
-  return (ERROR);
-}
-<INITIAL>{LINE_COMMENT}
+<INITIAL>{LINE_COMMENT} curr_lineno++;
 <INITIAL>{OPEN_COMMENT} BEGIN(COMMENT);
 <INITIAL>{CLOSE_COMMENT} {
   cool_yylval.error_msg = "Unmatched *)";
@@ -124,13 +119,30 @@ DARROW =>
   BEGIN(INITIAL);
   return(ERROR);
 }
-<COMMENT>[^(\*\))<<EOF>>]*
+<COMMENT>[^(\*\))]*
 <COMMENT>\n curr_lineno++;
 <COMMENT>{CLOSE_COMMENT} BEGIN(INITIAL);
-<INITIAL>{STR_CONST} {
+
+<INITIAL>{OPEN_STRING} BEGIN(STRING);
+<STRING>{NULL_CHAR_IN_STRING} {
+  cool_yylval.error_msg = "String contains null character";
+  BEGIN  (INITIAL);
+  return (ERROR);
+}
+<STRING>{EOL_IN_STRING}/. {
+  cool_yylval.error_msg = "Unterminated string constant";
+  BEGIN  (INITIAL);
+  return (ERROR);
+}
+<STRING>{EOL_IN_STRING} {
+  cool_yylval.error_msg = "EOF in string constant";
+  BEGIN  (INITIAL);
+  return (ERROR);
+}
+<STRING>{STR_CONST} {
   char string_for_table[] = "";
 
-  for (int i=1; i < yyleng; i++)
+  for (int i=0; i < yyleng; i++)
   {
     if (char_is_not_last(i))
     {
@@ -144,6 +156,7 @@ DARROW =>
     }
   }
 
+  BEGIN (INITIAL);
   if (strlen(string_for_table) <= 1024)
   {
     cool_yylval.symbol = stringtable.add_string(string_for_table);
@@ -168,7 +181,6 @@ DARROW =>
   return (OBJECTID);
 }
 <INITIAL>{DARROW} return (DARROW);
-<INITIAL>\n curr_lineno++;
 <INITIAL>[\t\b\f ]
 <INITIAL>\n curr_lineno++;
 <INITIAL>. {
