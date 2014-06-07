@@ -1,7 +1,7 @@
 class Main {
-    main() : SELF_TYPE {
+    main() : Int {
         {
-            self;
+          1 - 2;
         }
     };
 };

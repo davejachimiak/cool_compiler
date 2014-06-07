@@ -55,7 +55,7 @@ class CellularAutomaton inherits IO {
    
     evolve() : SELF_TYPE {
         (let position : Int in
-        (let num : Int <- num_cells[] in
+        (let num : Int <- num_cells() in
         (let temp : String in
             {
                 while position < num loop
@@ -79,12 +79,12 @@ class Main {
             cells <- (new CellularAutomaton).init("         X         ");
             cells.print();
             (let countdown : Int <- 20 in
-                while countdown > 0 loop
+                while 0 < countdown loop
                     {
                         cells.evolve();
                         cells.print();
                         countdown <- countdown - 1;
-                    
+                    }
                 pool
             );  (* end let countdown *)
             self;
