@@ -188,8 +188,8 @@ DARROW =>
   BEGIN(INITIAL);
   return(ERROR);
 }
-<COMMENT>[^(\*\))]*
-<COMMENT>\n curr_lineno++;
+<COMMENT>[^(\*\))\n]*\n curr_lineno++;
+<COMMENT>[^(\*\))\n]*
 <COMMENT>{CLOSE_COMMENT} BEGIN(INITIAL);
 
 <INITIAL>{OPEN_STRING} BEGIN(STRING);
