@@ -61,6 +61,9 @@ char convert_char (int i)
 
     switch(next_char)
     {
+    case '\0' :
+      return ('\\');
+      break;
     case '\\' :
       return ('\\');
       break;
@@ -83,14 +86,14 @@ char convert_char (int i)
     case 'f' :
       return ('\f');
       break;
+    default :
+      return ('\0');
+      break;
     }
   }
   else
     return (cur_char);
 }
-
-bool prev_char_is_not_escape (int i)
-{ return (!is_escape(yytext[i - 1])); }
 
 int comment_level = 0;
 %}
@@ -125,6 +128,7 @@ THEN (?i:then)
 WHILE (?i:while)
 
 TRUE t(?i:rue)
+
 FALSE f(?i:alse)
 
 NOT (?i:not)
@@ -227,7 +231,7 @@ DARROW =>
   return (ERROR);
 }
 <STRING>{STR_CONST} {
-  char string_for_table[] = "";
+  char string_for_table[100000] = "";
 
   for (int i=0; i < yyleng; i++)
   {
@@ -244,7 +248,7 @@ DARROW =>
   }
 
   BEGIN (INITIAL);
-  if (strlen(string_for_table) <= 1024)
+  if (strlen(string_for_table) <= MAX_STR_CONST)
   {
     cool_yylval.symbol = stringtable.add_string(string_for_table);
     return (STR_CONST);
