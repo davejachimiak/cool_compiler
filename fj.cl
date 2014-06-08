@@ -1,10 +1,1 @@
-class Main {
-  main() : Int {
-    {
-      1 - 2;
-    }
-  };
-};
-
-"sup \
-<- newline"
+" there is an EOF coming... wait for it... wait for it...

@@ -210,6 +210,7 @@ DARROW =>
   BEGIN  (INITIAL);
   return (ERROR);
 }
+<STRING><<EOF>> |
 <STRING>{EOL_IN_STRING} {
   cool_yylval.error_msg = "EOF in string constant";
   BEGIN  (INITIAL);
