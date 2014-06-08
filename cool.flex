@@ -92,6 +92,7 @@ char convert_char (int i)
 bool prev_char_is_not_escape (int i)
 { return (!is_escape(yytext[i - 1])); }
 
+int comment_level = 0;
 %}
 
 STR_CONST ([^\"\n\0]|\\\"|\\\n)*\"
@@ -102,6 +103,7 @@ EOL_IN_STRING [^\"(\\\n)]*[^\"\\]\n
 LINE_COMMENT --[^\n\0]*
 OPEN_COMMENT \(\*
 CLOSE_COMMENT \*\)
+VALID_COMMENT_CHAR (\([^*]|\\\*|\*[^)]|[^\(\*])
 
 CLASS (?i:class)
 INHERITS (?i:inherits)
@@ -185,7 +187,10 @@ DARROW =>
 <INITIAL>{ASSIGN} return (ASSIGN);
 
 <INITIAL>{LINE_COMMENT} curr_lineno++;
-<INITIAL>{OPEN_COMMENT} BEGIN(COMMENT);
+<INITIAL>{OPEN_COMMENT} {
+	comment_level++;
+  BEGIN(COMMENT);
+}
 <INITIAL>{CLOSE_COMMENT} {
   cool_yylval.error_msg = "Unmatched *)";
   return (ERROR);
@@ -195,9 +200,15 @@ DARROW =>
   BEGIN(INITIAL);
   return(ERROR);
 }
-<COMMENT>{CLOSE_COMMENT} BEGIN(INITIAL);
-<COMMENT>(\*[^)]|[^*])*
-<COMMENT>(\*[^)]|[^*])*\n curr_lineno++;
+<COMMENT>{OPEN_COMMENT} comment_level++;
+<COMMENT>{CLOSE_COMMENT} {
+  comment_level--;
+
+  if (comment_level == 0)
+		BEGIN(INITIAL);
+}
+<COMMENT>{VALID_COMMENT_CHAR}*
+<COMMENT>{VALID_COMMENT_CHAR}*\n curr_lineno++;
 
 <INITIAL>{OPEN_STRING} BEGIN(STRING);
 <STRING>{NULL_CHAR_IN_STRING} {
