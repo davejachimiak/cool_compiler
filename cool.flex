@@ -194,9 +194,9 @@ DARROW =>
   BEGIN(INITIAL);
   return(ERROR);
 }
-<COMMENT>[^(\*\))\n]*\n curr_lineno++;
-<COMMENT>[^(\*\))\n]*
 <COMMENT>{CLOSE_COMMENT} BEGIN(INITIAL);
+<COMMENT>(\*[^)]|[^*])*
+<COMMENT>(\*[^)]|[^*])*\n curr_lineno++;
 
 <INITIAL>{OPEN_STRING} BEGIN(STRING);
 <STRING>{NULL_CHAR_IN_STRING} {
