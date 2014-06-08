@@ -452,8 +452,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	(yy_c_buf_p) = yy_cp;
 
 /* %% [4.0] data tables for the DFA and the user's section 1 definitions go here */
-#define YY_NUM_RULES 40
-#define YY_END_OF_BUFFER 41
+#define YY_NUM_RULES 41
+#define YY_END_OF_BUFFER 42
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -463,36 +463,36 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[285] =
     {   0,
-        0,    0,   25,   25,    0,    0,   41,   39,   36,   37,
-       27,   38,   38,   38,   38,   32,   38,   38,   33,   33,
-       33,   33,   33,   33,   33,   33,   33,   33,   33,   34,
-       34,   34,   34,   34,   34,   34,   34,   34,   34,   34,
-       25,   25,   40,   40,   40,   31,   40,   40,   40,   22,
-       23,   21,   32,   20,   35,   33,   33,   33,   33,   33,
-       33,   33,   33,   33,   33,    7,    7,    5,    9,   33,
-        5,    9,   33,   33,   33,   33,   33,   33,   33,   33,
-       33,   18,   18,   33,   33,   33,   33,   33,   33,   34,
-       34,   34,   34,   34,   34,   34,   34,   34,   34,   34,
+        0,    0,   25,   25,    0,    0,   42,   40,   37,   38,
+       27,   39,   39,   39,   39,   33,   39,   39,   34,   34,
+       34,   34,   34,   34,   34,   34,   34,   34,   34,   35,
+       35,   35,   35,   35,   35,   35,   35,   35,   35,   35,
+       25,   25,   41,   32,   41,   31,   32,   32,   32,   22,
+       23,   21,   33,   20,   36,   34,   34,   34,   34,   34,
+       34,   34,   34,   34,   34,    7,    7,    5,    9,   34,
+        5,    9,   34,   34,   34,   34,   34,   34,   34,   34,
+       34,   18,   18,   34,   34,   34,   34,   34,   34,   35,
+       35,   35,   35,   35,   35,   35,   35,   35,   35,   35,
 
-        7,   34,    7,    5,    9,   34,    5,    9,   34,   34,
-       34,   34,   34,   34,   34,   34,   34,   18,   18,   34,
-       34,   34,   34,   34,   34,   34,   34,   25,   25,    0,
+        7,   35,    7,    5,    9,   35,    5,    9,   35,   35,
+       35,   35,   35,   35,   35,   35,   35,   18,   18,   35,
+       35,   35,   35,   35,   35,   35,   35,   25,   25,    0,
        24,    0,   30,   31,    0,    0,    0,   30,    0,    0,
-       31,    0,    0,   21,   33,   33,   33,   33,   33,   33,
-       33,   33,   33,   33,   33,   33,    8,    8,   33,   33,
-        3,    3,   14,   14,   33,   33,   33,   33,   33,   33,
-       34,   34,   34,   34,   34,   34,   34,   34,   34,   34,
-       34,   34,   34,   34,    8,   34,    8,   34,    3,   14,
-        3,   14,   34,   34,   34,   34,   34,   34,   34,   34,
+       31,    0,    0,   21,   34,   34,   34,   34,   34,   34,
+       34,   34,   34,   34,   34,   34,    8,    8,   34,   34,
+        3,    3,   14,   14,   34,   34,   34,   34,   34,   34,
+       35,   35,   35,   35,   35,   35,   35,   35,   35,   35,
+       35,   35,   35,   35,    8,   35,    8,   35,    3,   14,
+        3,   14,   35,   35,   35,   35,   35,   35,   35,   35,
 
-       29,    0,    0,   17,   17,   33,   33,    6,    6,   19,
-       19,   33,   33,   33,   33,   10,   10,   11,   11,   12,
-       12,   33,   33,   17,   34,   17,   34,    6,   19,    6,
-       19,   34,   34,   34,   34,   34,   34,   10,   10,   11,
-       11,   12,   15,   12,   15,   34,   34,   28,    0,    1,
-        1,   33,   33,   33,   33,   13,   13,    1,    1,   16,
-       16,   34,   34,   34,   34,   13,   13,   33,   33,    4,
-        4,   34,    4,   34,    4,   33,   33,   34,   34,    2,
+       29,    0,    0,   17,   17,   34,   34,    6,    6,   19,
+       19,   34,   34,   34,   34,   10,   10,   11,   11,   12,
+       12,   34,   34,   17,   35,   17,   35,    6,   19,    6,
+       19,   35,   35,   35,   35,   35,   35,   10,   10,   11,
+       11,   12,   15,   12,   15,   35,   35,   28,    0,    1,
+        1,   34,   34,   34,   34,   13,   13,    1,    1,   16,
+       16,   35,   35,   35,   35,   13,   13,   34,   34,    4,
+        4,   35,    4,   35,    4,   34,   34,   35,   35,    2,
         2,    2,    2,    0
     } ;
 
@@ -782,12 +782,12 @@ static char *yy_last_accepting_cpos;
 extern int yy_flex_debug;
 int yy_flex_debug = 1;
 
-static yyconst flex_int16_t yy_rule_linenum[40] =
+static yyconst flex_int16_t yy_rule_linenum[41] =
     {   0,
       151,  152,  153,  155,  157,  158,  159,  161,  162,  164,
       165,  167,  168,  170,  172,  176,  181,  182,  183,  185,
-      187,  188,  189,  198,  199,  200,  202,  203,  208,  214,
-      219,  248,  252,  256,  260,  261,  262,  263,  264
+      187,  188,  189,  198,  199,  200,  202,  203,  208,  213,
+      218,  247,  253,  257,  261,  265,  266,  267,  268,  269
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -1234,13 +1234,13 @@ do_action:	/* This label is used only to access EOF actions. */
 			{
 			if ( yy_act == 0 )
 				fprintf( stderr, "--scanner backing up\n" );
-			else if ( yy_act < 40 )
+			else if ( yy_act < 41 )
 				fprintf( stderr, "--accepting rule at line %ld (\"%s\")\n",
 				         (long)yy_rule_linenum[yy_act], yytext );
-			else if ( yy_act == 40 )
+			else if ( yy_act == 41 )
 				fprintf( stderr, "--accepting default rule (\"%s\")\n",
 				         yytext );
-			else if ( yy_act == 41 )
+			else if ( yy_act == 42 )
 				fprintf( stderr, "--(end of buffer or a NUL)\n" );
 			else
 				fprintf( stderr, "--EOF (start condition %d)\n", YY_START );
@@ -1433,12 +1433,10 @@ YY_RULE_SETUP
   return (ERROR);
 }
 	YY_BREAK
-case YY_STATE_EOF(STRING):
-#line 213 "cool.flex"
 case 30:
 /* rule 30 can match eol */
 YY_RULE_SETUP
-#line 214 "cool.flex"
+#line 213 "cool.flex"
 {
   cool_yylval.error_msg = "EOF in string constant";
   BEGIN  (INITIAL);
@@ -1448,7 +1446,7 @@ YY_RULE_SETUP
 case 31:
 /* rule 31 can match eol */
 YY_RULE_SETUP
-#line 219 "cool.flex"
+#line 218 "cool.flex"
 {
   char string_for_table[] = "";
 
@@ -1481,63 +1479,76 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
+#line 247 "cool.flex"
+
+	YY_BREAK
+case YY_STATE_EOF(STRING):
 #line 248 "cool.flex"
+{
+  cool_yylval.error_msg = "EOF in string constant";
+  BEGIN  (INITIAL);
+  return (ERROR);
+}
+	YY_BREAK
+case 33:
+YY_RULE_SETUP
+#line 253 "cool.flex"
 { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
 }
 	YY_BREAK
-case 33:
+case 34:
 YY_RULE_SETUP
-#line 252 "cool.flex"
+#line 257 "cool.flex"
 {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (TYPEID);
 }
 	YY_BREAK
-case 34:
+case 35:
 YY_RULE_SETUP
-#line 256 "cool.flex"
+#line 261 "cool.flex"
 {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (OBJECTID);
 }
 	YY_BREAK
-case 35:
-YY_RULE_SETUP
-#line 260 "cool.flex"
-return (DARROW);
-	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 261 "cool.flex"
-
+#line 265 "cool.flex"
+return (DARROW);
 	YY_BREAK
 case 37:
-/* rule 37 can match eol */
 YY_RULE_SETUP
-#line 262 "cool.flex"
-curr_lineno++;
+#line 266 "cool.flex"
+
 	YY_BREAK
 case 38:
+/* rule 38 can match eol */
 YY_RULE_SETUP
-#line 263 "cool.flex"
-return (yytext[0]);
+#line 267 "cool.flex"
+curr_lineno++;
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 264 "cool.flex"
+#line 268 "cool.flex"
+return (yytext[0]);
+	YY_BREAK
+case 40:
+YY_RULE_SETUP
+#line 269 "cool.flex"
 {
   cool_yylval.error_msg = yytext;
   return (ERROR);
 }
 	YY_BREAK
-case 40:
+case 41:
 YY_RULE_SETUP
-#line 268 "cool.flex"
+#line 273 "cool.flex"
 ECHO;
 	YY_BREAK
-#line 1541 "cool-lex.cc"
+#line 1552 "cool-lex.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2672,7 +2683,6 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 268 "cool.flex"
-
+#line 273 "cool.flex"
 
 
