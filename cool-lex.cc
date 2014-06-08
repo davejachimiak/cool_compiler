@@ -868,7 +868,7 @@ char convert_char (int i)
       break;
     case '\n' :
       curr_lineno++;
-      return ('\0');
+      return ('\n');
       break;
     case 'n' :
       return ('\n');
