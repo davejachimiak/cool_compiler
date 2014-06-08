@@ -1,6 +1,7 @@
 (* 
-	(*
-farts		*)
-	\*) *\) poopies *)
-
-a poopies
+  (* \*) *\) 
+  abc 
+  \(* def (\* ghi  *)
+jkl
+*)
+mno

@@ -103,7 +103,7 @@ EOL_IN_STRING [^\"(\\\n)]*[^\"\\]\n
 LINE_COMMENT --[^\n\0]*
 OPEN_COMMENT \(\*
 CLOSE_COMMENT \*\)
-VALID_COMMENT_CHAR (\([^*]|\\\*|\*[^)]|[^\(\*])
+VALID_COMMENT_CHAR (\\\(|\([^*]|\\\*|\*[^)]|[^\(\*])
 
 CLASS (?i:class)
 INHERITS (?i:inherits)
