@@ -61,9 +61,6 @@ char convert_char (int i)
 
     switch(next_char)
     {
-    case '\0' :
-      return ('\0');
-      break;
     case '\\' :
       return ('\\');
       break;
@@ -102,7 +99,7 @@ STR_CONST ([^\"\n\0]|\\\0|\\\"|\\\n)*\"
 OPEN_STRING \"
 ESCAPED_NULL_CHAR_IN_STRING [^\"\n\0]*\\\0[^\"(\\\n)]*(\"|\\\n)
 NULL_CHAR_IN_STRING [^\"\n\0]*[^\\]\0[^\"(\\\n)]*(\"|\\\n)
-EOL_IN_STRING [^\"(\\\n)]*[^\"\\]\n
+EOL_IN_STRING [^\"\n\\]*[^\"\\]\n
 
 LINE_COMMENT --.*
 OPEN_COMMENT \(\*
@@ -233,6 +230,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 <STRING>{EOL_IN_STRING}/. {
   cool_yylval.error_msg = "Unterminated string constant";
   BEGIN  (INITIAL);
+  curr_lineno++;
   return (ERROR);
 }
 <STRING>{EOL_IN_STRING} {
@@ -245,7 +243,15 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 
   for (int i=0; i < yyleng; i++)
   {
-    if (char_is_not_last(i))
+    if (yytext[i] == '\n')
+    {
+			cool_yylval.error_msg = "Unterminated string constant";
+			BEGIN  (INITIAL);
+			curr_lineno++;
+      yyless(yyleng - (yyleng - i));
+			return (ERROR);
+    }
+    else if (char_is_not_last(i))
     {
       int cur_string_len = strlen(string_for_table);
       string_for_table[cur_string_len] = convert_char(i);
