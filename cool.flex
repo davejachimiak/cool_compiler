@@ -62,7 +62,7 @@ char convert_char (int i)
     switch(next_char)
     {
     case '\0' :
-      return ('\\');
+      return ('\0');
       break;
     case '\\' :
       return ('\\');
@@ -98,12 +98,13 @@ char convert_char (int i)
 int comment_level = 0;
 %}
 
-STR_CONST ([^\"\n\0]|\\\"|\\\n)*\"
+STR_CONST ([^\"\n\0]|\\\0|\\\"|\\\n)*\"
 OPEN_STRING \"
-NULL_CHAR_IN_STRING [^\"\n\0]\0[^\"(\\\n)](\"|\\\n)
+ESCAPED_NULL_CHAR_IN_STRING [^\"\n\0]*\\\0[^\"(\\\n)]*(\"|\\\n)
+NULL_CHAR_IN_STRING [^\"\n\0]*[^\\]\0[^\"(\\\n)]*(\"|\\\n)
 EOL_IN_STRING [^\"(\\\n)]*[^\"\\]\n
 
-LINE_COMMENT --[^\n\0]*
+LINE_COMMENT --.*
 OPEN_COMMENT \(\*
 CLOSE_COMMENT \*\)
 VALID_COMMENT_CHAR (\\\(|\([^*]|\\\*|\*[^)]|[^\(\*])
@@ -137,6 +138,8 @@ CASE (?i:case)
 OF (?i:of)
 ESAC (?i:esac)
 
+DARROW =>
+
 ASSIGN (<-)
 
 OPERATOR "-"|"<"|[+/*=\.~,;:\(\)@\{\}]
@@ -149,9 +152,8 @@ DOWNCASE_LETTER [a-z]
 LETTER {UPCASE_LETTER}|{DOWNCASE_LETTER}
 DIGIT_OR_LETTER {LETTER}|{DIGIT}
 
-TYPEID {UPCASE_LETTER}+({DIGIT}|{LETTER}|_)*
+TYPEID {UPCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
-DARROW =>
 
 %%
 <INITIAL>{CLASS} return (CLASS);
@@ -220,6 +222,11 @@ DARROW =>
   BEGIN  (INITIAL);
   return (ERROR);
 }
+<STRING>{ESCAPED_NULL_CHAR_IN_STRING} {
+  cool_yylval.error_msg = "String contains escaped null character.";
+  BEGIN  (INITIAL);
+  return (ERROR);
+}
 <STRING>{EOL_IN_STRING}/. {
   cool_yylval.error_msg = "Unterminated string constant";
   BEGIN  (INITIAL);
@@ -248,6 +255,7 @@ DARROW =>
   }
 
   BEGIN (INITIAL);
+
   if (strlen(string_for_table) <= MAX_STR_CONST)
   {
     cool_yylval.symbol = stringtable.add_string(string_for_table);
@@ -259,7 +267,6 @@ DARROW =>
     return (ERROR);
   }
 }
-<STRING>.
 <STRING><<EOF>> {
   cool_yylval.error_msg = "EOF in string constant";
   BEGIN  (INITIAL);
