@@ -281,6 +281,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   BEGIN  (INITIAL);
   return (ERROR);
 }
+<STRING>.
 <INITIAL>{INT_CONST} { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
