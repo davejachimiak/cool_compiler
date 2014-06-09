@@ -87,7 +87,7 @@ char convert_char (int i)
       return ('\f');
       break;
     default :
-      return ('\0');
+      return (next_char);
       break;
     }
   }
@@ -143,6 +143,7 @@ DARROW =>
 ASSIGN (<-)
 
 OPERATOR "-"|"<"|[+/*=\.~,;:\(\)@\{\}]
+LE <=
 
 DIGIT [0-9]
 
@@ -191,6 +192,8 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 <INITIAL>{ESAC} return (ESAC);
 
 <INITIAL>{ASSIGN} return (ASSIGN);
+<INITIAL>{OPERATOR} return (yytext[0]);
+<INITIAL>{LE} return (LE);
 
 <INITIAL>{LINE_COMMENT} curr_lineno++;
 <INITIAL>{OPEN_COMMENT} {
@@ -287,7 +290,6 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 <INITIAL>{DARROW} return (DARROW);
 <INITIAL>[\t\b\f ]
 <INITIAL>\n curr_lineno++;
-<INITIAL>{OPERATOR} return (yytext[0]);
 <INITIAL>. {
   cool_yylval.error_msg = yytext;
   return (ERROR);
