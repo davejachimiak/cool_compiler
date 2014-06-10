@@ -95,7 +95,7 @@ char convert_char (int i)
 int comment_level = 0;
 %}
 
-STR_CONST ([^\"\n\0]|\\\0|\\\"|\\\n)*\"
+STR_CONST ([^\"\n\0]|\\\0|\\\"|\\\n)*[^\\]\"
 OPEN_STRING \"
 ESCAPED_NULL_CHAR_IN_STRING [^\"\n\0]*\\\0[^\"(\\\n)]*(\"|\\\n)
 NULL_CHAR_IN_STRING [^\"\n\0]*[^\\]\0[^\"(\\\n)]*(\"|\\\n)
