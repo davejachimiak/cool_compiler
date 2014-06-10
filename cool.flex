@@ -95,7 +95,7 @@ char convert_char (int i)
 int comment_level = 0;
 %}
 
-STR_CONST ([^\"\n\0]|\\\0|\\\"|\\\n)*[^\\]\"
+STR_CONST ([^\"\n\0]|\\\0|\\\"|\\\n)*[^\\]?\"
 OPEN_STRING \"
 ESCAPED_NULL_CHAR_IN_STRING [^\"\n\0]*\\\0[^\"(\\\n)]*(\"|\\\n)
 NULL_CHAR_IN_STRING [^\"\n\0]*[^\\]\0[^\"(\\\n)]*(\"|\\\n)
@@ -104,7 +104,7 @@ EOL_IN_STRING [^\"\n\\]*[^\"\\]\n
 LINE_COMMENT --.*
 OPEN_COMMENT \(\*
 CLOSE_COMMENT \*\)
-VALID_COMMENT_CHAR (\\\(|\([^*]|\\\*|\*[^)]|[^\(\*])
+VALID_COMMENT_CHAR (\\\(|\([^*]|\\\*|\*[^\n)]|[^\(\*\n])
 
 CLASS (?i:class)
 INHERITS (?i:inherits)
@@ -214,7 +214,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 		BEGIN(INITIAL);
 }
 <COMMENT>{VALID_COMMENT_CHAR}*
-<COMMENT>{VALID_COMMENT_CHAR}*\n curr_lineno++;
+<COMMENT>{VALID_COMMENT_CHAR}*\**\n curr_lineno++;
 
 <INITIAL>{OPEN_STRING} BEGIN(STRING);
 <STRING>{NULL_CHAR_IN_STRING} {
