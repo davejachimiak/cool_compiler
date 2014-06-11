@@ -1427,7 +1427,7 @@ return (LE);
 case 23:
 YY_RULE_SETUP
 #line 196 "cool.flex"
-curr_lineno++;
+
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
