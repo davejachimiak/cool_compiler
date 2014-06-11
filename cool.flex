@@ -96,7 +96,7 @@ char convert_char (int i)
 int comment_level = 0;
 %}
 
-STR_CONST \"|(\\\0|\\\"|\\\n|[^\"\n\0])*[^\\]\"
+STR_CONST \"|(\\\0|\\\"|\\\n|[^\"\n\0])*([^\\]|\\\\)\"
 OPEN_STRING \"
 ESCAPED_NULL_CHAR_IN_STRING [^\"\n\0]*\\\0[^\"(\\\n)]*(\"|\\\n)
 NULL_CHAR_IN_STRING [^\"\n\0]*[^\\]\0[^\"(\\\n)]*(\"|\\\n)
@@ -274,6 +274,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 }
 <STRING>. BEGIN (WILD_STRING);
 <WILD_STRING>.
+<WILD_STRING>\n curr_lineno++;
 <WILD_STRING><<EOF>> {
   cool_yylval.error_msg = "EOF in string constant";
   BEGIN  (INITIAL);
