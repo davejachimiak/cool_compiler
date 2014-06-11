@@ -1,5 +1,6 @@
 %Start COMMENT
 %Start STRING
+%Start WILD_STRING
 
 /*
  *  The scanner definition for COOL.
@@ -95,7 +96,7 @@ char convert_char (int i)
 int comment_level = 0;
 %}
 
-STR_CONST ([^\"\n\0]|\\\0|\\\"|\\\n)*[^\\]?\"
+STR_CONST \"|(\\\0|\\\"|\\\n|[^\"\n\0])*[^\\]\"
 OPEN_STRING \"
 ESCAPED_NULL_CHAR_IN_STRING [^\"\n\0]*\\\0[^\"(\\\n)]*(\"|\\\n)
 NULL_CHAR_IN_STRING [^\"\n\0]*[^\\]\0[^\"(\\\n)]*(\"|\\\n)
@@ -233,11 +234,6 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   curr_lineno++;
   return (ERROR);
 }
-<STRING>{EOL_IN_STRING} {
-  cool_yylval.error_msg = "EOF in string constant";
-  BEGIN  (INITIAL);
-  return (ERROR);
-}
 <STRING>{STR_CONST} {
   char string_for_table[100000] = "";
 
@@ -276,12 +272,13 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
     return (ERROR);
   }
 }
-<STRING><<EOF>> {
+<STRING>. BEGIN (WILD_STRING);
+<WILD_STRING>.
+<WILD_STRING><<EOF>> {
   cool_yylval.error_msg = "EOF in string constant";
   BEGIN  (INITIAL);
   return (ERROR);
 }
-<STRING>.
 <INITIAL>{INT_CONST} { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);

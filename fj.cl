@@ -1,1 +1,3 @@
-some tokens { ""; } -- comment yup
+""
+
+"string with no closing quote\"
