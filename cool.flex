@@ -1,6 +1,7 @@
 %Start COMMENT
 %Start STRING
 %Start WILD_STRING
+%Start STAR_IN_COMMENT
 
 /*
  *  The scanner definition for COOL.
@@ -104,8 +105,7 @@ EOL_IN_STRING [^\"\n\\]*[^\"\\]\n
 
 LINE_COMMENT --.*
 OPEN_COMMENT \(\*
-CLOSE_COMMENT \*\)
-VALID_COMMENT_CHAR (\\\(|\([^*]|\\\*|\*[^\n)]|[^\(\*\n])
+VALID_COMMENT_CHAR \\\(|\([^*]|\\\*|[^\(\*\n]
 
 CLASS (?i:class)
 INHERITS (?i:inherits)
@@ -198,7 +198,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 	comment_level++;
   BEGIN(COMMENT);
 }
-<INITIAL>{CLOSE_COMMENT} {
+<INITIAL>\*\) {
   cool_yylval.error_msg = "Unmatched *)";
   return (ERROR);
 }
@@ -207,15 +207,23 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   BEGIN(INITIAL);
   return(ERROR);
 }
-<COMMENT>{OPEN_COMMENT} comment_level++;
-<COMMENT>{CLOSE_COMMENT} {
+<COMMENT>\* BEGIN(STAR_IN_COMMENT);
+<STAR_IN_COMMENT>\) {
   comment_level--;
 
   if (comment_level == 0)
 		BEGIN(INITIAL);
+  else
+    BEGIN(COMMENT);
 }
+<STAR_IN_COMMENT>[^\n]|\*
+<STAR_IN_COMMENT>\n {
+  BEGIN(COMMENT);
+  curr_lineno++;
+}
+<COMMENT>{OPEN_COMMENT} comment_level++;
 <COMMENT>{VALID_COMMENT_CHAR}*
-<COMMENT>{VALID_COMMENT_CHAR}*\**\n curr_lineno++;
+<COMMENT>\n curr_lineno++;
 
 <INITIAL>{OPEN_STRING} BEGIN(STRING);
 <STRING>{NULL_CHAR_IN_STRING} {
