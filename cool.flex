@@ -236,7 +236,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   BEGIN  (INITIAL);
   return (ERROR);
 }
-<STRING>{EOL_IN_STRING}/. {
+<STRING>{EOL_IN_STRING} {
   cool_yylval.error_msg = "Unterminated string constant";
   BEGIN  (INITIAL);
   curr_lineno++;
