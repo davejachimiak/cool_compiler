@@ -16,7 +16,6 @@
 #include <cool-parse.h>
 #include <stringtab.h>
 #include <utilities.h>
-#include <algorithm>
 
 /* The compiler assumes these identifiers. */
 #define yylval cool_yylval
@@ -308,8 +307,12 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   return (OBJECTID);
 }
 <INITIAL>{DARROW} return (DARROW);
-<INITIAL>[\t\b\f ]
+<INITIAL>[\t\b\f\r\v ]
 <INITIAL>\n curr_lineno++;
+<INITIAL>. {
+  cool_yylval.error_msg = yytext;
+  return (ERROR);
+}
 <INITIAL>. {
   cool_yylval.error_msg = yytext;
   return (ERROR);
