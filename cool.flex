@@ -97,7 +97,7 @@ char convert_char (int i)
 int comment_level = 0;
 %}
 
-STR_CONST \"|(\\\0|\\\"|\\\n|[^\"\n\0])*([^\\]|\\\\)\"
+STR_CONST \"|(\\\0|\\\\|\\\"|\\\n|[^\"\n\0])*\"
 OPEN_STRING \"
 ESCAPED_NULL_CHAR_IN_STRING [^\"\n\0]*\\\0[^\"(\\\n)]*(\"|\\\n)
 NULL_CHAR_IN_STRING [^\"\n\0]*[^\\]\0[^\"(\\\n)]*(\"|\\\n)
@@ -256,6 +256,12 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
       yyless(yyleng - (yyleng - i));
 			return (ERROR);
     }
+    if (yytext[i] == '\\' && yytext[i + 1] == '\"' && i == yyleng -2)
+    {
+			cool_yylval.error_msg = "Unterminated string constant";
+			BEGIN  (INITIAL);
+			return (ERROR);
+    }
     else if (char_is_not_last(i))
     {
       int cur_string_len = strlen(string_for_table);
@@ -270,7 +276,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 
   BEGIN (INITIAL);
 
-  if (strlen(string_for_table) <= MAX_STR_CONST)
+  if (strlen(string_for_table) < MAX_STR_CONST)
   {
     cool_yylval.symbol = stringtable.add_string(string_for_table);
     return (STR_CONST);
