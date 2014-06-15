@@ -36,6 +36,7 @@ extern FILE *fin; /* we read from this file */
 	if ( (result = fread( (char*)buf, sizeof(char), max_size, fin)) < 0) \
 		YY_FATAL_ERROR( "read() in flex scanner failed");
 
+/* yeah I don't want to use these - dj */
 char string_buf[MAX_STR_CONST]; /* to assemble string constants */
 char *string_buf_ptr;
 
@@ -44,7 +45,7 @@ extern int verbose_flag;
 
 extern YYSTYPE cool_yylval;
 
-/* STR_CONST helpers */
+/* STR_CONST helpers - dj */
 
 bool char_is_not_last (int i)
 { return (i != (yyleng -1)); }
@@ -136,12 +137,10 @@ CASE (?i:case)
 OF (?i:of)
 ESAC (?i:esac)
 
-DARROW =>
-
 ASSIGN (<-)
-
+DARROW =>
 OPERATOR "-"|"<"|[+/*=\.~,;:\(\)@\{\}]
-LE <=
+LESS_THAN_EQUALS <=
 
 DIGIT [0-9]
 
@@ -158,24 +157,17 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 <INITIAL>{CLASS} return (CLASS);
 <INITIAL>{INHERITS} return (INHERITS);
 <INITIAL>{NEW} return (NEW);
-
 <INITIAL>{ISVOID} return (ISVOID);
-
 <INITIAL>{IF} return (IF);
 <INITIAL>{ELSE} return (ELSE);
 <INITIAL>{FI} return (FI);
-
 <INITIAL>{LET} return (LET);
 <INITIAL>{IN} return (IN);
-
 <INITIAL>{LOOP} return (LOOP);
 <INITIAL>{POOL} return (POOL);
-
 <INITIAL>{THEN} return (THEN);
 <INITIAL>{WHILE} return (WHILE);
-
 <INITIAL>{NOT} return (NOT);
-
 <INITIAL>{TRUE} {
   yylval.boolean = 1;
   return (BOOL_CONST);
@@ -184,14 +176,14 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   yylval.boolean = 0;
   return (BOOL_CONST);
 }
-
 <INITIAL>{CASE} return (CASE);
 <INITIAL>{OF} return (OF);
 <INITIAL>{ESAC} return (ESAC);
-
 <INITIAL>{ASSIGN} return (ASSIGN);
 <INITIAL>{OPERATOR} return (yytext[0]);
-<INITIAL>{LE} return (LE);
+<INITIAL>{DARROW} return (DARROW);
+<INITIAL>{LESS_THAN_EQUALS} return (LE);
+
 
 <INITIAL>{LINE_COMMENT}
 <INITIAL>{OPEN_COMMENT} {
@@ -225,6 +217,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 <COMMENT>{OPEN_COMMENT} comment_level++;
 <COMMENT>{VALID_COMMENT_CHAR}*
 <COMMENT>\n curr_lineno++;
+
 
 <INITIAL>{OPEN_STRING} BEGIN(STRING);
 <STRING>{NULL_CHAR_IN_STRING} {
@@ -304,10 +297,14 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   BEGIN  (INITIAL);
   return (ERROR);
 }
+
+
 <INITIAL>{INT_CONST} { 
   cool_yylval.symbol = inttable.add_string (yytext);
   return (INT_CONST);
 }
+
+
 <INITIAL>{TYPEID} {
   cool_yylval.symbol = idtable.add_string (yytext);
   return (TYPEID);
@@ -316,13 +313,10 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   cool_yylval.symbol = idtable.add_string (yytext);
   return (OBJECTID);
 }
-<INITIAL>{DARROW} return (DARROW);
+
+
 <INITIAL>[\t\b\f\r\v ]
 <INITIAL>\n curr_lineno++;
-<INITIAL>. {
-  cool_yylval.error_msg = yytext;
-  return (ERROR);
-}
 <INITIAL>. {
   cool_yylval.error_msg = yytext;
   return (ERROR);
