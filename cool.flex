@@ -33,8 +33,8 @@ extern FILE *fin; /* we read from this file */
  */
 #undef YY_INPUT
 #define YY_INPUT(buf,result,max_size) \
-	if ( (result = fread( (char*)buf, sizeof(char), max_size, fin)) < 0) \
-		YY_FATAL_ERROR( "read() in flex scanner failed");
+  if ( (result = fread( (char*)buf, sizeof(char), max_size, fin)) < 0) \
+    YY_FATAL_ERROR( "read() in flex scanner failed");
 
 /* yeah I don't want to use these - dj */
 char string_buf[MAX_STR_CONST]; /* to assemble string constants */
@@ -94,6 +94,9 @@ char convert_char (int i)
     return (cur_char);
 }
 
+
+
+/* to keep track of nested commetns */
 int comment_level = 0;
 %}
 
@@ -187,7 +190,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 
 <INITIAL>{LINE_COMMENT}
 <INITIAL>{OPEN_COMMENT} {
-	comment_level++;
+  comment_level++;
   BEGIN(COMMENT);
 }
 <INITIAL>\*\) {
@@ -204,7 +207,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   comment_level--;
 
   if (comment_level == 0)
-		BEGIN(INITIAL);
+    BEGIN(INITIAL);
   else
     BEGIN(COMMENT);
 }
@@ -244,17 +247,17 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   {
     if (yytext[i] == '\n')
     {
-			cool_yylval.error_msg = "Unterminated string constant";
-			BEGIN  (INITIAL);
-			curr_lineno++;
-      yyless(yyleng - (yyleng - i));
-			return (ERROR);
+      cool_yylval.error_msg = "Unterminated string constant";
+      BEGIN  (INITIAL);
+      curr_lineno++;
+      yyless(i + 1);
+      return (ERROR);
     }
     else if (yytext[i] == '\\' && yytext[i + 1] == '\"' && i == yyleng -2)
     {
-			cool_yylval.error_msg = "Unterminated string constant";
-			BEGIN  (INITIAL);
-			return (ERROR);
+      cool_yylval.error_msg = "Unterminated string constant";
+      BEGIN  (INITIAL);
+      return (ERROR);
     }
     else if (char_is_not_last(i))
     {
