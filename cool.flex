@@ -96,8 +96,9 @@ char convert_char (int i)
 int comment_level = 0;
 %}
 
-STR_CONST \"|(\\\0|\\\\|\\\"|\\\n|[^\"\n\0])*\"
+STR_CONST \"|(\\\0|\\\"|\\\n|[^\"\n\0])*\"
 OPEN_STRING \"
+BACKLASH_ESCAPE \\\\
 ESCAPED_NULL_CHAR_IN_STRING [^\"\n\0]*\\\0[^\"(\\\n)]*(\"|\\\n)
 NULL_CHAR_IN_STRING [^\"\n\0]*[^\\]\0[^\"(\\\n)]*(\"|\\\n)
 EOL_IN_STRING [^\"\n\\]*[^\"\\]\n
@@ -242,8 +243,10 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
   curr_lineno++;
   return (ERROR);
 }
+<STRING>{BACKLASH_ESCAPE}
 <STRING>{STR_CONST} {
   char string_for_table[100000] = "";
+  /*printf(yytext);*/
 
   for (int i=0; i < yyleng; i++)
   {
@@ -255,7 +258,7 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
       yyless(yyleng - (yyleng - i));
 			return (ERROR);
     }
-    if (yytext[i] == '\\' && yytext[i + 1] == '\"' && i == yyleng -2)
+    else if (yytext[i] == '\\' && yytext[i + 1] == '\"' && i == yyleng -2)
     {
 			cool_yylval.error_msg = "Unterminated string constant";
 			BEGIN  (INITIAL);
@@ -263,13 +266,21 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
     }
     else if (char_is_not_last(i))
     {
-      int cur_string_len = strlen(string_for_table);
-      string_for_table[cur_string_len] = convert_char(i);
-      string_for_table[cur_string_len+1] = '\0';
+      if (yytext[i] == '\"')
+      {
+        yyless(i + 1);
+        i = yyleng;
+      }
+      else
+      {
+        int cur_string_len = strlen(string_for_table);
+        string_for_table[cur_string_len] = convert_char(i);
+        string_for_table[cur_string_len+1] = '\0';
 
-      /* skip next character if current is escape*/
-      if (yytext[i] == '\\')
-        i++;
+        /* skip next character if current is escape*/
+        if (yytext[i] == '\\')
+          i++;
+      }
     }
   }
 
