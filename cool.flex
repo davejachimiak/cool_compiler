@@ -96,12 +96,12 @@ char convert_char (int i)
 int comment_level = 0;
 %}
 
-STR_CONST \"|(\\\0|\\\"|\\\n|[^\"\n\0])*\"
+STR_CONST (\\\0|\\\"|\\\n|[^\"\n\0])*\"
 OPEN_STRING \"
 BACKLASH_ESCAPE \\\\
 ESCAPED_NULL_CHAR_IN_STRING [^\"\n\0]*\\\0[^\"(\\\n)]*(\"|\\\n)
 NULL_CHAR_IN_STRING [^\"\n\0]*[^\\]\0[^\"(\\\n)]*(\"|\\\n)
-EOL_IN_STRING [^\"\n\\]*[^\"\\]\n
+EOL_IN_STRING [^\"\n\\]*[^\"\\]*\n
 
 LINE_COMMENT --.*
 OPEN_COMMENT \(\*
@@ -246,7 +246,6 @@ OBJECTID {DOWNCASE_LETTER}+({DIGIT_OR_LETTER}|_)*
 <STRING>{BACKLASH_ESCAPE}
 <STRING>{STR_CONST} {
   char string_for_table[100000] = "";
-  /*printf(yytext);*/
 
   for (int i=0; i < yyleng; i++)
   {
